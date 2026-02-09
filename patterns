@@ -1,0 +1,204 @@
+# =========================================================
+# CORE PYTHON LOOPING AND COUNTING PATTERNS
+# =========================================================
+ 
+ 
+# =========================================================
+# LIST LOOPING
+# =========================================================
+ 
+apple = ["red", "green", "yellow"]
+ 
+# INDEX-BASED LOOP
+# Use when you need the index position
+for i in range(len(apple)):
+    print(apple[i])
+ 
+# VALUE-BASED LOOP (PREFERRED)
+# Use when you only need the values
+for color in apple:
+    print(color)
+ 
+ 
+# =========================================================
+# DICTIONARY LOOPING AND LOOKUPS
+# =========================================================
+ 
+prices = {"apple": 2, "banana": 1, "chocolate": 3}
+cart = {"apple": 3, "chocolate": 2}
+ 
+total = 0
+ 
+# ORIGINAL VERSION
+# Loop over keys and check existence
+for item in cart:
+    if item in prices:
+        total += cart[item] * prices[item]
+ 
+print(total)
+ 
+# IMPROVED VERSION
+# Loop over keys and values together
+total = 0
+ 
+for item, quantity in cart.items():
+    if item in prices:
+        total += quantity * prices[item]
+ 
+print(total)
+ 
+ 
+# =========================================================
+# FOR LOOP WITH COUNTER AND CONTINUE
+# =========================================================
+ 
+# Logic: perform an action every 3rd iteration
+ 
+def award_enchantments(start, end, step):
+    counter = 0
+ 
+    for quest_number in range(start, end, step):
+        counter = counter + 1
+ 
+        if counter < 3:
+            continue
+ 
+        counter = 0
+        enchantment_strength = quest_number * 5
+ 
+        print(
+            f"Enchantment of strength {enchantment_strength} awarded for completing {quest_number} quests!"
+        )
+ 
+ 
+# =========================================================
+# SAME LOGIC USING A WHILE LOOP
+# =========================================================
+ 
+def award_enchantments_while(start, end, step):
+    quest_number = start
+    counter = 0
+ 
+    while quest_number < end:
+        counter += 1
+ 
+        if counter < 3:
+            quest_number += step
+            continue
+ 
+        counter = 0
+        enchantment_strength = quest_number * 5
+ 
+        print(
+            f"Enchantment of strength {enchantment_strength} awarded for completing {quest_number} quests!"
+        )
+ 
+        quest_number += step
+ 
+ 
+# =========================================================
+# CHARACTER COUNTING FROM A STRING
+# =========================================================
+ 
+# Count individual characters in a string
+# Case-insensitive
+ 
+def character_count(text):
+    char_count = {}
+ 
+    for char in text.lower():
+        if char in char_count:
+            char_count[char] += 1
+        else:
+            char_count[char] = 1
+ 
+    return char_count
+ 
+ 
+# =========================================================
+# IMPROVED CHARACTER COUNT VERSION
+# =========================================================
+ 
+def character_count(text):
+    char_count = {}
+ 
+    for char in text.lower():
+        char_count[char] = char_count.get(char, 0) + 1
+ 
+    return char_count
+ 
+ 
+# =========================================================
+# OPTIONAL: BUILT-IN COUNTER
+# =========================================================
+ 
+from collections import Counter
+ 
+def character_count_counter(text):
+    return Counter(text.lower())
+ 
+ 
+# =========================================================
+# SORTED CHARACTER COUNTS (YOUR APPROACH + TWEAKS)
+# =========================================================
+ 
+# Helper function for sorting
+def sort_on(item):
+    return item["num"]
+ 
+ 
+# Convert {char: count} into a sorted list of dictionaries
+# Filters to letters only
+# Sorts most to least by default (set descending=False for least to most)
+def chars_dict_to_sorted_list(num_chars_dict, descending=True):
+    sorted_list = []
+ 
+    for ch, count in num_chars_dict.items():
+        if not ch.isalpha():
+            continue
+        sorted_list.append({"char": ch, "num": count})
+ 
+    sorted_list.sort(key=sort_on, reverse=descending)
+    return sorted_list
+
+# Boot.dev solution
+
+
+def sort_on(item):
+    return item["num"]
+
+
+def sorted_counts(count):
+    sort_list = []
+    for key, value in count.items():
+        diction = {"char": key, "num": value}
+        sort_list.append(diction)
+    sort_list.sort(key=sort_on, reverse=True)
+    return sort_list
+# on main file
+ num_characters = character_count(text)
+ test = sorted_counts(num_characters)
+
+    for item in test:
+        char = item["char"]
+        num = item["num"]
+        if not char.isalpha():
+            continue
+        print(f"{char}: {num}")
+
+
+ 
+# =========================================================
+# CORE PATTERNS TO REMEMBER
+# =========================================================
+ 
+# for item in list                -> loop over values
+# for i in range(len(list))       -> loop over indexes
+# for key in dict                 -> loop over keys
+# for key, val in dict.items()    -> loop over keys and values
+# if key in dict                  -> safe existence check
+# dict.get(key, default)          -> clean accumulation
+# continue                        -> skip current iteration
+# counters                        -> control frequency
+# strings are iterable            -> loop character by character
+# dictionaries excel at counting
