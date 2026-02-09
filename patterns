@@ -161,8 +161,10 @@ def chars_dict_to_sorted_list(num_chars_dict, descending=True):
     sorted_list.sort(key=sort_on, reverse=descending)
     return sorted_list
 
-# Boot.dev solution
 
+# =========================================================
+# Boot.dev solution
+# =========================================================
 
 def sort_on(item):
     return item["num"]
