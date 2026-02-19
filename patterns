@@ -142,14 +142,10 @@ def character_count_counter(text):
 # SORTED CHARACTER COUNTS (YOUR APPROACH + TWEAKS)
 # =========================================================
  
-# Helper function for sorting
 def sort_on(item):
     return item["num"]
  
  
-# Convert {char: count} into a sorted list of dictionaries
-# Filters to letters only
-# Sorts most to least by default (set descending=False for least to most)
 def chars_dict_to_sorted_list(num_chars_dict, descending=True):
     sorted_list = []
  
@@ -160,35 +156,55 @@ def chars_dict_to_sorted_list(num_chars_dict, descending=True):
  
     sorted_list.sort(key=sort_on, reverse=descending)
     return sorted_list
-
-
+ 
+ 
 # =========================================================
-# Boot.dev solution
+# NESTED LOOPS AND TUPLE PAIRING
 # =========================================================
-
-def sort_on(item):
-    return item["num"]
-
-
-def sorted_counts(count):
-    sort_list = []
-    for key, value in count.items():
-        diction = {"char": key, "num": value}
-        sort_list.append(diction)
-    sort_list.sort(key=sort_on, reverse=True)
-    return sort_list
-# on main file
- num_characters = character_count(text)
- test = sorted_counts(num_characters)
-
-    for item in test:
-        char = item["char"]
-        num = item["num"]
-        if not char.isalpha():
-            continue
-        print(f"{char}: {num}")
-
-
+ 
+# Combining two lists into all possible pairs
+# This creates a Cartesian product
+ 
+colors = ["Red", "Blue"]
+sizes = ["Small", "Large"]
+ 
+pairs = []
+ 
+# Outer loop controls first element
+for color in colors:
+ 
+    # Inner loop runs fully for each outer loop value
+    for size in sizes:
+ 
+        # Create a tuple
+        pair = (color, size)
+ 
+        # Store the tuple
+        pairs.append(pair)
+ 
+print(pairs)
+ 
+# Result:
+# [
+#   ('Red', 'Small'),
+#   ('Red', 'Large'),
+#   ('Blue', 'Small'),
+#   ('Blue', 'Large')
+# ]
+ 
+ 
+# =========================================================
+# IMPROVED VERSION USING itertools
+# =========================================================
+ 
+# Cleaner built-in way to create Cartesian products
+ 
+from itertools import product
+ 
+pairs = list(product(colors, sizes))
+ 
+print(pairs)
+ 
  
 # =========================================================
 # CORE PATTERNS TO REMEMBER
@@ -198,6 +214,8 @@ def sorted_counts(count):
 # for i in range(len(list))       -> loop over indexes
 # for key in dict                 -> loop over keys
 # for key, val in dict.items()    -> loop over keys and values
+# nested loops                    -> combinations and products
+# tuples                          -> lightweight fixed pairs
 # if key in dict                  -> safe existence check
 # dict.get(key, default)          -> clean accumulation
 # continue                        -> skip current iteration
