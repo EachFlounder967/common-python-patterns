@@ -1,0 +1,166 @@
+# ==================================================
+# OBJECT ORIENTED PROGRAMMING MASTER REFERENCE
+# ==================================================
+
+# --------------------------------------------------
+# BASIC CLASS EXAMPLE
+# --------------------------------------------------
+
+class Book:
+    def __init__(self, title, author):
+        self.title = title
+        self.author = author
+        # Instance variables belong to each object.
+        # "self" refers to the specific object being created.
+
+
+class Library:
+    def __init__(self, name):
+        self.name = name
+        self.books = []  # Each Library object gets its own list.
+
+    def add_book(self, book):
+        self.books.append(book)
+
+    def remove_book(self, book):
+        kept_books = []  # Local variable (only exists inside this method)
+
+        for existing_books in self.books:
+            if (existing_books.title != book.title
+                or existing_books.author != book.author):
+                kept_books.append(existing_books)
+
+        self.books = kept_books  # Reassign instance variable
+
+    def search_books(self, search_string):
+        matches = []
+        search_string = search_string.lower()
+
+        for bk in self.books:
+            if (search_string in bk.title.lower()
+                or search_string in bk.author.lower()):
+                matches.append(bk)
+
+        return matches
+
+
+# --------------------------------------------------
+# CLASS VARIABLES AND PRIVATE ATTRIBUTES
+# --------------------------------------------------
+
+import random
+
+
+class DeckOfCards:
+
+    # Class variables (shared by ALL instances)
+    SUITS = ["Hearts", "Diamonds", "Clubs", "Spades"]
+    RANKS = [
+        "Ace", "2", "3", "4", "5", "6", "7",
+        "8", "9", "10", "Jack", "Queen", "King"
+    ]
+
+    def __init__(self):
+        self.__cards = []  # Private instance variable
+        self.create_deck()
+
+    def create_deck(self):
+        for suit in self.SUITS:
+            for rank in self.RANKS:
+                dis_deck = (rank, suit)
+                self.__cards.append(dis_deck)
+
+        # Each DeckOfCards object has its own card list.
+
+    def shuffle_deck(self):
+        random.shuffle(self.__cards)
+
+    def deal_card(self):
+        if len(self.__cards) > 0:
+            return self.__cards.pop()
+        return None
+
+    def __str__(self):
+        return f"The deck has {len(self.__cards)} cards"
+
+
+# --------------------------------------------------
+# INHERITANCE
+# --------------------------------------------------
+
+# Inheritance allows a class (child)
+# to reuse and extend another class (parent).
+
+class Human:
+    def __init__(self, name):
+        self.__name = name  # Private instance variable
+
+    def get_name(self):
+        return self.__name
+
+
+# Archer INHERITS from Human
+# Archer automatically gets get_name()
+
+class Archer(Human):
+    def __init__(self, name, num_arrows):
+
+        # super() calls the parent class constructor.
+        # This ensures the Human portion is properly initialized.
+        super().__init__(name)
+
+        self.__num_arrows = num_arrows
+
+    def get_num_arrows(self):
+        return self.__num_arrows
+
+    def use_arrows(self, num):
+        if self.__num_arrows < num:
+            raise Exception("not enough arrows")
+
+        self.__num_arrows -= num
+
+
+# Crossbowman INHERITS from Archer
+# This creates multi-level inheritance:
+# Human -> Archer -> Crossbowman
+
+class Crossbowman(Archer):
+    def __init__(self, name, num_arrows):
+
+        # Calls Archer constructor
+        # Which then calls Human constructor
+        super().__init__(name, num_arrows)
+
+    def triple_shot(self, target):
+
+        # Reuses method from Archer
+        self.use_arrows(3)
+
+        # Reuses method from Human (inherited through Archer)
+        target_name = target.get_name()
+
+        return f"{target_name} was shot by 3 crossbow bolts"
+
+
+# --------------------------------------------------
+# INHERITANCE CONCEPT SUMMARY
+# --------------------------------------------------
+
+# Parent class:
+# Defines common attributes and behavior.
+
+# Child class:
+# Inherits everything from parent
+# Can add new behavior
+# Can override existing behavior
+
+# super():
+# Calls the parent version of a method.
+
+# Multi-level inheritance:
+# Crossbowman -> Archer -> Human
+# Crossbowman has access to:
+# - get_name() from Human
+# - use_arrows() from Archer
+# - its own triple_shot() method
