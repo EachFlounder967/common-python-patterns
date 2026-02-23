@@ -100,9 +100,6 @@ def award_enchantments_while(start, end, step):
 # CHARACTER COUNTING FROM A STRING
 # =========================================================
  
-# Count individual characters in a string
-# Case-insensitive
- 
 def character_count(text):
     char_count = {}
  
@@ -162,48 +159,59 @@ def chars_dict_to_sorted_list(num_chars_dict, descending=True):
 # NESTED LOOPS AND TUPLE PAIRING
 # =========================================================
  
-# Combining two lists into all possible pairs
-# This creates a Cartesian product
- 
 colors = ["Red", "Blue"]
 sizes = ["Small", "Large"]
  
 pairs = []
  
-# Outer loop controls first element
 for color in colors:
- 
-    # Inner loop runs fully for each outer loop value
     for size in sizes:
- 
-        # Create a tuple
         pair = (color, size)
- 
-        # Store the tuple
         pairs.append(pair)
  
 print(pairs)
- 
-# Result:
-# [
-#   ('Red', 'Small'),
-#   ('Red', 'Large'),
-#   ('Blue', 'Small'),
-#   ('Blue', 'Large')
-# ]
  
  
 # =========================================================
 # IMPROVED VERSION USING itertools
 # =========================================================
  
-# Cleaner built-in way to create Cartesian products
- 
 from itertools import product
  
 pairs = list(product(colors, sizes))
  
 print(pairs)
+ 
+ 
+# =========================================================
+# OBJECT LOOPING AND SAFE LIST MODIFICATION
+# =========================================================
+ 
+# Demonstrates:
+# - Looping over objects directly
+# - Looping by index when needed
+# - Copying a list before modifying it
+# - Calling methods on class instances
+ 
+def main():
+    dragons = [
+        Dragon("Green Dragon", 0, 0, 1),
+        Dragon("Red Dragon", 2, 2, 2),
+        Dragon("Blue Dragon", 4, 3, 3),
+        Dragon("Black Dragon", 5, -1, 4),
+    ]
+ 
+    # don't touch above this line
+ 
+    # Loop directly over objects
+    for drago in dragons:
+        describe(drago)
+ 
+    # Loop by index when position matters
+    for d in range(0, len(dragons)):
+        dragon_list = dragons.copy()      # create safe copy
+        del dragon_list[d]               # remove current dragon from copy
+        dragons[d].breathe_fire(3, 3, dragon_list)
  
  
 # =========================================================
@@ -222,3 +230,5 @@ print(pairs)
 # counters                        -> control frequency
 # strings are iterable            -> loop character by character
 # dictionaries excel at counting
+# copy()                          -> avoid mutating while iterating
+# objects in loops                -> call methods on instances
