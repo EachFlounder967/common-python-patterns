@@ -1,0 +1,21 @@
+Input lines:
+  0: '# mixed content'
+  1: '1'
+  2: '2'
+  3: '3'
+  4: '# comment'
+  5: '   4   '
+  6: ''
+  7: '  # another comment'
+
+def total_score_from_lines(lines):
+    total = 0
+    for line in lines:
+        better = line.strip()
+        if better =="":
+            continue
+        if better.startswith("#"):
+            continue
+        score = int(better)
+        total += score
+    return total
